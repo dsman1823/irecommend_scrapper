@@ -4,14 +4,12 @@ Objects:
 * review
 ___
 Product:
-* id
 * title
 * rating
+* amount_of_votes
 * category
+* brand
 * class
-* yandex_rating
-* yandex_amount_of_reviews
-* amount_of_proposals
 ___
 User:
 * username

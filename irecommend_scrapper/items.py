@@ -8,7 +8,10 @@
 import scrapy
 
 
-class IrecommendScrapperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Product(scrapy.Item):
+    title = scrapy.Field()
+    rating = scrapy.Field()
+    amount_of_votes = scrapy.Field()
+    category = scrapy.Field()
+    brand = scrapy.Field()
+    type = scrapy.Field()
