@@ -8,7 +8,7 @@
 import scrapy
 
 
-class Product(scrapy.Item):
+class ProductItem(scrapy.Item):
     title = scrapy.Field()
     rating = scrapy.Field()
     amount_of_votes = scrapy.Field()
@@ -17,7 +17,7 @@ class Product(scrapy.Item):
     type = scrapy.Field()
 
 
-class Review(scrapy.Item):
+class ReviewItem(scrapy.Item):
     title = scrapy.Field()
     user = scrapy.Field()
     published_at = scrapy.Field()
@@ -27,7 +27,7 @@ class Review(scrapy.Item):
     does_recommend = scrapy.Field()
 
 
-class User(scrapy.Item):
+class UserItem(scrapy.Item):
     username = scrapy.Field()
     participation_time = scrapy.Field()
     amount_of_reviews = scrapy.Field()
