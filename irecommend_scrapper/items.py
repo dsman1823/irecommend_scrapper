@@ -15,3 +15,19 @@ class Product(scrapy.Item):
     category = scrapy.Field()
     brand = scrapy.Field()
     type = scrapy.Field()
+
+
+class Review(scrapy.Item):
+    title = scrapy.Field()
+    user = scrapy.Field()
+    published_at = scrapy.Field()
+    body = scrapy.Field()
+    pros = scrapy.Field()
+    cons = scrapy.Field()
+    does_recommend = scrapy.Field()
+
+
+class User(scrapy.Item):
+    username = scrapy.Field()
+    participation_time = scrapy.Field()
+    amount_of_reviews = scrapy.Field()
