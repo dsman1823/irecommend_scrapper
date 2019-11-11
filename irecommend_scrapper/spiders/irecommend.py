@@ -10,8 +10,12 @@ class IrecommendSpider(scrapy.Spider):
     name = 'irecommend'
     allowed_domains = ['irecommend.ru']
     start_urls = [
-        'https://irecommend.ru/content/elektricheskii-chainik-moulinex-by730132',
+        'https://irecommend.ru/category/dlya-kukhni',
     ]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.i = 0
 
     def parse_amount_of_reviews_str(reviews_str):
         return re.sub("[^0-9]", "", str(reviews_str))
@@ -39,7 +43,7 @@ class IrecommendSpider(scrapy.Spider):
         yield review
         yield response.follow(user_selector.css('::attr(href)').get(), callback=self.parse_user)
 
-    def parse(self, response):
+    def parse_product(self, response):
         product = items.Product()
         product['title'] = response.css('h1.largeHeader span.fn::text').get()
         product['rating'] = response.css('span.rating::text').get()
@@ -51,3 +55,12 @@ class IrecommendSpider(scrapy.Spider):
 
         ref = response.css('a.more::attr(href)').getall()[0]
         yield response.follow(ref, callback=self.parse_review)
+
+    def parse_page(self, response):
+        for ref in response.css('div.title a::attr(href)').getall():
+            yield response.follow(ref, callback=self.parse_product)
+
+    def parse(self, response):
+        amount_of_pages = int(response.css('li.pager-last a::text').get())
+        for i in range(0, amount_of_pages):
+            yield response.follow('/category/dlya-kukhni?page=' + str(i), callback=self.parse_page)
