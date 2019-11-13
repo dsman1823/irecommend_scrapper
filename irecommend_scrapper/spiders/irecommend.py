@@ -42,6 +42,11 @@ class IrecommendSpider(scrapy.Spider):
         yield review
         yield response.follow(user_selector.css('::attr(href)').get(), callback=self.parse_user)
 
+    def parse_reviews(self, response):
+        review_hrefs = response.css('a.more::attr(href)').getall()
+        for r in review_hrefs:
+            yield response.follow(r, callback=self.parse_review)
+
     def parse_product(self, response):
         product = items.ProductItem()
         product['title'] = response.css('h1.largeHeader span.fn::text').get()
@@ -52,9 +57,11 @@ class IrecommendSpider(scrapy.Spider):
 
         yield product
 
-        review_hrefs = response.css('a.more::attr(href)').getall()
-        for r in review_hrefs:
-            yield response.follow(r, callback=self.parse_review)
+        reviews_pages_selector = response.css('li.pager-last a::text').get()
+        if reviews_pages_selector:
+            amount_of_pages = int(reviews_pages_selector)
+            for i in range(0, amount_of_pages):
+                yield response.follow(response.url + '?page=' + str(i), callback=self.parse_reviews)
 
     def parse_page(self, response):
         for ref in response.css('div.title a::attr(href)').getall():
