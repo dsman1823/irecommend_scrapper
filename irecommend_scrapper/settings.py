@@ -11,10 +11,11 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 256
 ROBOTSTXT_OBEY = False
 
 RETRY_HTTP_CODES = [521]
-
 ITEM_PIPELINES = {
     'irecommend_scrapper.pipelines.IrecommendScrapperPipeline': 300,
 }
+
+
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
@@ -25,3 +26,8 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ROTATING_PROXY_LIST = get_proxies()
+
+AWS_ACCESS_KEY_ID = "AKIA6K6QFJAG2PDUA6GS"
+AWS_SECRET_ACCESS_KEY = "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"
+BUCKET_NAME = "spark-lrng-d.sei"
+
