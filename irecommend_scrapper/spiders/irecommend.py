@@ -52,8 +52,9 @@ class IrecommendSpider(scrapy.Spider):
         product['title'] = response.css('h1.largeHeader span.fn::text').get()
         product['rating'] = response.css('span.rating::text').get()
         product['amount_of_votes'] = response.css('span.count::text').get()
-        description = response.xpath('//div[@itemprop="description"]/*').css('a::text').getall()
-        product['category'], product['brand'], product['type'] = list(filter(lambda i: not i.isspace(), description))
+        product['category'] = response.css('div.vid-1 a::text').get()
+        product['brand'] = response.css('div.vid-2 a::text').get()
+        product['type'] = response.css('div.vid-55 a::text').get()
 
         yield product
 
