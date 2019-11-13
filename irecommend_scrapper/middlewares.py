@@ -5,7 +5,11 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+import schedule
 from scrapy import signals
+
+from irecommend_scrapper import settings
+from irecommend_scrapper.utils import get_proxies
 
 
 class IrecommendScrapperSpiderMiddleware(object):
@@ -99,5 +103,9 @@ class IrecommendScrapperDownloaderMiddleware(object):
         # - return a Request object: stops process_exception() chain
         pass
 
+    def update_proxies_list(self):
+        settings.ROTATING_PROXY_LIST = get_proxies()
+
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+        schedule.every(5).minutes.do(self.update_proxies_list)
