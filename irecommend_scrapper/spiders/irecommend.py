@@ -63,13 +63,11 @@ class IrecommendSpider(scrapy.Spider):
         for i in range(0, amount_of_pages):
             yield response.follow(response.url + '?page=' + str(i), callback=self.parse_reviews)
 
+    def parse_page(self, response):
+        for ref in response.css('div.title a::attr(href)').getall():
+            yield response.follow(ref, callback=self.parse_product)
 
-def parse_page(self, response):
-    for ref in response.css('div.title a::attr(href)').getall():
-        yield response.follow(ref, callback=self.parse_product)
-
-
-def parse(self, response):
-    amount_of_pages = int(response.css('li.pager-last a::text').get())
-    for i in range(0, amount_of_pages):
-        yield response.follow('/category/dlya-kukhni?page=' + str(i), callback=self.parse_page)
+    def parse(self, response):
+        amount_of_pages = int(response.css('li.pager-last a::text').get())
+        for i in range(0, amount_of_pages):
+            yield response.follow('/category/dlya-kukhni?page=' + str(i), callback=self.parse_page)
